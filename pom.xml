@@ -8,6 +8,7 @@
     <modules>
         <module>api</module>
         <module>microservices/review-service</module>
+        <module>microservices/recommendation-service</module>
         <module>util</module>
     </modules>
     <groupId>com.saber</groupId>
