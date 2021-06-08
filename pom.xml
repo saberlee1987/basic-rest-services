@@ -7,6 +7,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>api</module>
+        <module>microservices/review-service</module>
+        <module>util</module>
     </modules>
     <groupId>com.saber</groupId>
     <artifactId>basic-rest-services</artifactId>
@@ -16,4 +18,11 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.saber</groupId>
+            <artifactId>util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

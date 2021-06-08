@@ -28,6 +28,30 @@ public class Review {
         this.serviceAddress = serviceAddress;
     }
 
+    public int getProductId() {
+        return productId;
+    }
+
+    public int getReviewId() {
+        return reviewId;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getServiceAddress() {
+        return serviceAddress;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
