@@ -1,6 +1,5 @@
 package com.saber.product.composite.service.routes;
 
-import com.saber.util.exceptions.BusinessException;
 import com.saber.util.http.HttpErrorInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
