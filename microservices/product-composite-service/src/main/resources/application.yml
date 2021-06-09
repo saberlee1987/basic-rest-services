@@ -1,0 +1,42 @@
+server:
+  port: 8000
+
+
+camel:
+  springboot:
+    main-run-controller: true
+    name: CamelSpringBootServlet
+  component:
+    servlet:
+      mapping:
+        context-path: ${service.api.base-path}/*
+      enabled: true
+
+spring:
+  mvc:
+    async:
+      request-timeout: 6000
+
+service:
+  api:
+    base-path: /services/composite
+  log:
+    prettyPrint: true
+  product-service:
+    url: http://localhost
+    port: 7001
+    productEndpoint : /product
+  recommendation-service:
+    url: http://localhost
+    port: 7002
+    recommendationEndpoint: /recommendation
+  review-service:
+    url: http://localhost
+    port: 7003
+    reviewEndpoint: /review
+
+logging:
+  level:
+    root: INFO
+    com.saber: DEBUG
+

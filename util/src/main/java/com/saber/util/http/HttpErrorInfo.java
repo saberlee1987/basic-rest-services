@@ -6,10 +6,10 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class HttpErrorInfo {
-    private final ZonedDateTime timeStamp;
-    private final String path;
-    private final HttpStatus httpStatus;
-    private final String message;
+    private  ZonedDateTime timeStamp;
+    private  String path;
+    private  HttpStatus httpStatus;
+    private  String message;
 
     public HttpErrorInfo(){
         this.timeStamp=null;
@@ -21,6 +21,22 @@ public class HttpErrorInfo {
         this.timeStamp = ZonedDateTime.now();
         this.path = path;
         this.httpStatus = httpStatus;
+        this.message = message;
+    }
+
+    public void setTimeStamp(ZonedDateTime timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+    }
+
+    public void setMessage(String message) {
         this.message = message;
     }
 
@@ -39,6 +55,8 @@ public class HttpErrorInfo {
     public String getMessage() {
         return message;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

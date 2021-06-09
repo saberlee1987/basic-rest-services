@@ -1,10 +1,13 @@
 package com.saber.recommendation.service;
 
 import com.saber.api.core.recomndation.Recommendation;
+import com.saber.api.core.recomndation.RecommendationResponse;
 import com.saber.api.core.recomndation.RecommendationService;
 import com.saber.util.exceptions.InvalidInputException;
+import com.saber.util.exceptions.NotFoundException;
 import com.saber.util.http.ServiceUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +23,13 @@ public class RecommendationServiceIpl implements RecommendationService {
 
 
     @Override
-    public List<Recommendation> getRecommendations(int productId) {
+    public ResponseEntity<RecommendationResponse> getRecommendations(int productId) {
 
         if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
 
         if (productId == 113) {
             log.debug("No recommendations found for productId: {}", productId);
-            return  new ArrayList<>();
+            throw new NotFoundException("No recommendations found for productId:"+productId);
         }
 
         List<Recommendation> list = new ArrayList<>();
@@ -36,6 +39,8 @@ public class RecommendationServiceIpl implements RecommendationService {
 
         log.debug("/recommendation response size: {}", list.size());
 
-        return list;
+        RecommendationResponse response = new RecommendationResponse();
+        response.setRecommendations(list);
+        return ResponseEntity.ok(response);
     }
 }
