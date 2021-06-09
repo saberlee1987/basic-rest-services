@@ -6,7 +6,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.http.base.HttpOperationFailedException;
 import org.springframework.http.HttpStatus;
-
 import java.time.ZonedDateTime;
 @Slf4j
 public class AbstractRouteBuilder extends RouteBuilder {
