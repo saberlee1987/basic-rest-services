@@ -17,6 +17,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,12 @@ public class ProductCompositeRoute extends AbstractRouteBuilder {
     RecommendationResponse recommendationResponse;
     ReviewResponse reviewResponse;
 
+    @Value(value = "${service.minThreadPool}")
+    private Integer minThreadPool;
+    @Value(value = "${service.maxThreadPool}")
+    private Integer maxThreadPool;
+    @Value(value = "${service.maxQueueSize}")
+    private Integer maxQueueSize;
 
     @Override
     public void configure() throws Exception {
@@ -58,6 +65,7 @@ public class ProductCompositeRoute extends AbstractRouteBuilder {
         from("direct:product-composite-gateway")
                 .id("product-composite-gateway")
                 .setProperty("productId", header("productId"))
+                .threads(minThreadPool,maxThreadPool).threadName(Routes.PRODUCT_COMPOSITE).maxQueueSize(maxQueueSize)
                 .multicast().parallelProcessing(true)
                 .enrich("direct:product-service-route", (oldExchange, newExchange) -> {
                     int statusCode = newExchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE, Integer.class);
@@ -89,7 +97,6 @@ public class ProductCompositeRoute extends AbstractRouteBuilder {
                     }
                     return newExchange;
                 })
-                .timeout(6000)
                 .end()
                 .process(exchange -> {
                     ProductAggregate productAggregate = createProductAggregate(product, recommendationResponse.getRecommendations(), reviewResponse.getReviews(), serviceUtil.getServiceAddress());

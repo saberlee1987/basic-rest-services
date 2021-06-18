@@ -17,6 +17,13 @@ public class ProductRoute extends AbstractRouteBuilder {
     @Value(value = "${service.product-service.productEndpoint}")
     private String productEndpointUrl;
 
+    @Value(value = "${service.minThreadPool}")
+    private Integer minThreadPool;
+    @Value(value = "${service.maxThreadPool}")
+    private Integer maxThreadPool;
+    @Value(value = "${service.maxQueueSize}")
+    private Integer maxQueueSize;
+
 
     @Override
     public void configure() throws Exception {
@@ -32,6 +39,7 @@ public class ProductRoute extends AbstractRouteBuilder {
                     Integer productId = exchange.getProperty("productId", Integer.class);
                     exchange.getIn().setHeader(Exchange.HTTP_PATH, productId);
                 })
+                .threads(minThreadPool,maxThreadPool).threadName("product-service-route").maxQueueSize(maxQueueSize)
                 .to(productUrl + ":" + productPort + productEndpointUrl + "?bridgeEndpoint=true")
                 .convertBodyTo(String.class)
                 .unmarshal().json(JsonLibrary.Jackson, Product.class)

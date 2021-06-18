@@ -34,6 +34,11 @@ service:
     url: http://localhost
     port: 7003
     reviewEndpoint: /review
+  minThreadPool: 500
+  maxThreadPool: 5000
+  maxQueueSize : 5000
+
+
 
 logging:
   level:

@@ -17,6 +17,13 @@ public class ReviewRoute extends AbstractRouteBuilder {
     @Value(value = "${service.review-service.reviewEndpoint}")
     private String reviewEndpointUrl;
 
+    @Value(value = "${service.minThreadPool}")
+    private Integer minThreadPool;
+    @Value(value = "${service.maxThreadPool}")
+    private Integer maxThreadPool;
+    @Value(value = "${service.maxQueueSize}")
+    private Integer maxQueueSize;
+
 
     @Override
     public void configure() throws Exception {
@@ -30,6 +37,7 @@ public class ReviewRoute extends AbstractRouteBuilder {
                     exchange.getIn().setHeader(Exchange.HTTP_QUERY, "productId="+productId);
                     exchange.getIn().setHeader(Exchange.HTTP_PATH, "");
                 })
+                .threads(minThreadPool,maxThreadPool).threadName("review-service-route").maxQueueSize(maxQueueSize)
                 .to(reviewBaseUrl+":"+reviewPort+reviewEndpointUrl+"?bridgeEndpoint=true")
                 .convertBodyTo(String.class)
                 .unmarshal().json(JsonLibrary.Jackson, ReviewResponse.class)

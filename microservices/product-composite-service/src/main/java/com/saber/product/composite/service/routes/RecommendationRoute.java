@@ -20,6 +20,12 @@ public class RecommendationRoute extends AbstractRouteBuilder {
     @Value(value = "${service.recommendation-service.recommendationEndpoint}")
     private String recommendationEndpointUrl;
 
+    @Value(value = "${service.minThreadPool}")
+    private Integer minThreadPool;
+    @Value(value = "${service.maxThreadPool}")
+    private Integer maxThreadPool;
+    @Value(value = "${service.maxQueueSize}")
+    private Integer maxQueueSize;
 
     @Override
     public void configure() throws Exception {
@@ -33,6 +39,7 @@ public class RecommendationRoute extends AbstractRouteBuilder {
                     exchange.getIn().setHeader(Exchange.HTTP_QUERY, "productId="+productId);
                     exchange.getIn().setHeader(Exchange.HTTP_PATH, "");
                 })
+                .threads(minThreadPool,maxThreadPool).threadName("recommendation-service-route").maxQueueSize(maxQueueSize)
                 .to(recommendationUrl+":"+recommendationPort+recommendationEndpointUrl+"?bridgeEndpoint=true")
                 .convertBodyTo(String.class)
                 .unmarshal().json(JsonLibrary.Jackson, RecommendationResponse.class)
